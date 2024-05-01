@@ -43,10 +43,10 @@ class _DesignSystemPageState extends State<DesignSystemPage> {
                   }),
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 50),
+              margin: const EdgeInsets.symmetric(vertical: 50, horizontal: 16.0),
               child: ProgressDoughnutChart(
-                progress: 0.6,
-                radius: 150,
+                progress: 0.5,
+                radius: 100,
                 strokeWidth: 40,
                 backgroundColor: const Color(0xFFE0FAFF),
                 label: '1200ml / 3500ml',

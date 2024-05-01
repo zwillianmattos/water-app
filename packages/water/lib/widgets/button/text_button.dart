@@ -22,7 +22,8 @@ class _WTextButtonState extends State<WTextButton> {
         style: ElevatedButton.styleFrom(
           foregroundColor: textColor.withOpacity(0.5),
           backgroundColor: buttonColor,
-          minimumSize: Size(double.infinity, 64),
+          minimumSize: Size(double.infinity, 42),
+          maximumSize: Size(double.infinity, 64),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(13),
           ),
