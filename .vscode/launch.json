@@ -1,0 +1,48 @@
+{
+  // Use o IntelliSense para saber mais sobre os atributos possíveis.
+  // Focalizar para exibir as descrições dos atributos existentes.
+  // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "mobile_app",
+      "cwd": "mobile_app",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "mobile_app (profile mode)",
+      "cwd": "mobile_app",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "mobile_app (release mode)",
+      "cwd": "mobile_app",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "water",
+      "cwd": "packages/water",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "water (profile mode)",
+      "cwd": "packages/water",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "water (release mode)",
+      "cwd": "packages/water",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ]
+}
