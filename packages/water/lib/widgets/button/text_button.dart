@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class WTextButton extends StatefulWidget {
   final void Function()? onPressed;
+  final Color? color;
   final String label;
 
-  const WTextButton({super.key, this.onPressed, required this.label});
+  const WTextButton(
+      {super.key, this.onPressed, required this.label, this.color});
 
   @override
   State<WTextButton> createState() => _WTextButtonState();
@@ -13,7 +15,7 @@ class WTextButton extends StatefulWidget {
 class _WTextButtonState extends State<WTextButton> {
   @override
   Widget build(BuildContext context) {
-    final Color buttonColor = Theme.of(context).primaryColor;
+    final Color buttonColor = widget.color ?? Theme.of(context).primaryColor;
     final Color textColor = Theme.of(context).textTheme.labelLarge!.color!;
 
     return Padding(

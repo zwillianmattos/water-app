@@ -4,38 +4,38 @@ import 'package:flutter/material.dart';
 
 class ProgressDoughnutChart extends StatelessWidget {
   final double progress;
-  final double radius;
-  final double strokeWidth;
+  final double radius = 100;
+  final double strokeWidth = 40;
   final Color backgroundColor;
   final List<Color> progressColor;
   final String? label;
 
   ProgressDoughnutChart({
     required this.progress,
-    required this.radius,
-    this.strokeWidth = 10.0,
     this.backgroundColor = Colors.grey,
     this.label,
     List<Color>? progressColor,
-  }) : this.progressColor =
-            progressColor ?? [Color(0xFF46E1FC), Color(0xFF0081F8)];
+  }) : progressColor =
+            progressColor ?? const [Color(0xFF46E1FC), Color(0xFF0081F8)];
 
   @override
   Widget build(BuildContext context) {
     final Color labelColor = Theme.of(context).textTheme.bodyMedium!.color!;
     final Color percentColor = Theme.of(context).textTheme.bodyLarge!.color!;
-
+    final bool isClockAspectRatio =
+        MediaQuery.of(context).size.height <= 450;
     return CustomPaint(
       size: Size(radius * 2, radius * 2),
       painter: _ProgressDoughnutChartPainter(
-        label,
+        label: label,
         progress: progress,
         radius: radius,
-        strokeWidth: strokeWidth,
+        strokeWidth: isClockAspectRatio ? strokeWidth / 1.5 : strokeWidth,
         backgroundColor: backgroundColor,
         progressColor: progressColor,
         labelColor: labelColor,
         percentColor: percentColor,
+        isClockAspectRatio: isClockAspectRatio,
       ),
     );
   }
@@ -50,24 +50,28 @@ class _ProgressDoughnutChartPainter extends CustomPainter {
   final Color percentColor;
   final List<Color> progressColor;
   final String? label;
+  final bool isClockAspectRatio;
 
-  _ProgressDoughnutChartPainter(this.label,
-      {required this.progress,
-      required this.radius,
-      required this.strokeWidth,
-      required this.backgroundColor,
-      required this.progressColor,
-      required this.labelColor,
-      required this.percentColor});
+  _ProgressDoughnutChartPainter({
+    required this.label,
+    required this.progress,
+    required this.radius,
+    required this.strokeWidth,
+    required this.backgroundColor,
+    required this.progressColor,
+    required this.labelColor,
+    required this.percentColor,
+    this.isClockAspectRatio = false,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint backgroundPaint = Paint()
+    final Paint backgroundPaint = Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 
-    Paint progressPaint = Paint()
+    final Paint progressPaint = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..shader = LinearGradient(
@@ -81,33 +85,57 @@ class _ProgressDoughnutChartPainter extends CustomPainter {
         ),
       );
 
-    double centerX = size.width / 2;
-    double centerY = size.height / 2;
-
-    canvas.drawCircle(Offset(centerX, centerY), radius, backgroundPaint);
+    final double centerX = size.width / 2;
+    final double centerY = size.height / 2;
 
     double startAngle = pi;
     double sweepAngle = 2 * pi * progress;
 
+    if (isClockAspectRatio) {
+      final double startAngleBackground = pi;
+      final double sweepAngleBackground = 2 * pi * 0.5;
+
+      startAngle = pi;
+      sweepAngle = 2 * pi * (progress * 0.5);
+
+      canvas.drawArc(
+        Rect.fromCircle(center: Offset(centerX, centerY), radius: radius / 1.5),
+        startAngleBackground,
+        sweepAngleBackground,
+        false,
+        backgroundPaint,
+      );
+    } else {
+      canvas.drawCircle(Offset(centerX, centerY), radius, backgroundPaint);
+    }
+
     canvas.drawArc(
-      Rect.fromCircle(center: Offset(centerX, centerY), radius: radius),
+      Rect.fromCircle(
+        center: Offset(centerX, centerY),
+        radius: isClockAspectRatio ? radius / 1.5 : radius,
+      ),
       startAngle,
       sweepAngle,
       false,
       progressPaint,
     );
 
-    var progressPercent = 100 - (progress * 100);
-
-    TextPainter tp = TextPainter(
+    final TextPainter tp = TextPainter(
       text: TextSpan(
-        text: '${progressPercent.round().toStringAsFixed(0)}%',
-        style: TextStyle(color: percentColor, fontSize: 36, fontWeight: FontWeight.w700),
+        text: '${(progress * 100).round().toString()}%',
+        style: TextStyle(
+          color: percentColor,
+          fontSize: isClockAspectRatio ? 20 : 36,
+          fontWeight: FontWeight.w700,
+        ),
         children: label != null
             ? [
                 TextSpan(
                   text: '\n${label}',
-                  style: TextStyle(color: labelColor, fontSize: 14),
+                  style: TextStyle(
+                    color: labelColor,
+                    fontSize: isClockAspectRatio ? 10 : 14,
+                  ),
                 ),
               ]
             : null,
@@ -119,7 +147,10 @@ class _ProgressDoughnutChartPainter extends CustomPainter {
     tp.layout();
     tp.paint(
       canvas,
-      Offset(centerX - tp.width / 2, centerY - tp.height / 2),
+      Offset(
+        centerX - tp.width / 2,
+        isClockAspectRatio ? -25 : (centerY - tp.height / 2),
+      ),
     );
   }
 
