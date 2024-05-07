@@ -20,6 +20,11 @@ dependencies:
   intl: ^0.19.0
   flutter_modular: ^6.3.3
   equatable: ^2.0.5
+  wear_plus: ^1.2.0
+  iconly: ^1.0.1
+  rotary_scrollbar: ^0.1.1
+  is_wear: ^0.0.1+2
+  device_info: ^2.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:lottie/lottie.dart';
-import 'package:water/water.dart';
+import 'package:mobile_app/shared/widgets/scafold_widget.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -36,8 +35,8 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return ScaffoldWater(
+      body: (isWatch) => Stack(
         children: [
           _background(),
           Positioned(
@@ -70,15 +69,9 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 500),
       opacity: _showLogo ? 1.0 : 0.0,
-      child: Image.asset('assets/images/logo.png'),
-      onEnd: () async {
-        await Future.delayed(const Duration(seconds: 1));
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const DesignSystemPage(),
-          ),
-        );
+      child: Image.asset('assets/images/logo.png', scale: 1.2,),
+      onEnd: () {
+        Modular.to.pushReplacementNamed('/onboarding');
       },
     );
   }

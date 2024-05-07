@@ -8,15 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+    @ObservedObject var viewModel: WatchViewModel = WatchViewModel()
+    let currentDate = Date()
+    
+    func formatDate(date: Date) -> String {
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "EE, d MMM yyyy"
+           return dateFormatter.string(from: date)
+       }
+      var body: some View {
+          VStack {
+              Text("\(viewModel.counter) BPM")
+                  .padding().font(.title)
+              Text("\(formatDate(date: currentDate))")
+          }
+
+
+      }
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -24,3 +32,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

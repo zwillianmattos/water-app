@@ -3,7 +3,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:water/water_theme.dart';
 
 import 'app_module.dart';
-import 'features/splash/ui/splash_page.dart';
 
 class WaterApp extends StatelessWidget {
   const WaterApp({super.key});
@@ -12,10 +11,10 @@ class WaterApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ModularApp(
       module: AppModule(),
-      child: MaterialApp(
+      child: MaterialApp.router(
         title: 'Water App',
         theme: WaterTheme.themeData,
-        home: const SplashPage(),
+        routerConfig: Modular.routerConfig,
       ),
     );
   }
